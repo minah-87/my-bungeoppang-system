@@ -143,8 +143,9 @@ def create_app():
             if User.query.filter_by(email=data['email']).first():
                 return jsonify({"error": "이미 존재하는 이메일입니다"}), 400
             
-            # 비밀번호 해시화
-            hashed_password = generate_password_hash(data['password'])
+            # 비밀번호 해시화 (method 지정)
+            hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
+
             
             # 새 사용자 생성
             new_user = User(
